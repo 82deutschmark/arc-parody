@@ -130,7 +130,7 @@ const ChessBoard = ({ boardId, theme }: { boardId: number; theme: string }) => {
         ))}
       </div>
       <div className="mt-2 text-xs text-center">
-        <div className="text-neon-green">Move: {boardState.moveCount}</div>
+        <div className="text-neon-green">Move: {boardState.moveCount} 🦤</div>
         <div className="text-gray-400">Δt: {(Math.random() * 0.004 + 0.001).toFixed(3)}ms</div>
       </div>
     </div>
@@ -372,11 +372,11 @@ const StatisticsSidebar = () => {
 
         {/* Algorithm Performance */}
         <div className="bg-gray-800 bg-opacity-50 rounded-lg p-4 border border-neon-green border-opacity-30">
-          <h3 className="text-neon-green font-semibold mb-3 animate-pulse-glow">NEURAL NETWORK STATUS</h3>
+          <h3 className="text-neon-green font-semibold mb-3 animate-pulse-glow">NEURAL NETWORK STATUS 🦤</h3>
           <div className="space-y-2 text-sm">
             <div className="flex justify-between">
               <span className="text-gray-300">Algorithm:</span>
-              <span className="text-neon-cyan">DeepChess-Ω</span>
+              <span className="text-neon-cyan">DeepChess-Ω 🦤</span>
             </div>
             <div className="flex justify-between">
               <span className="text-gray-300">Nodes Evaluated:</span>
@@ -400,7 +400,7 @@ const StatisticsSidebar = () => {
           <h3 className="text-electric-blue font-semibold mb-3 animate-pulse-glow">MATHEMATICAL ANALYSIS</h3>
           <div className="space-y-3 text-sm">
             <div className="flex justify-between items-center">
-              <span className="text-gray-300">Entropy (H):</span>
+              <span className="text-gray-300">Entropy (H) 🦤:</span>
               <span className="text-white font-mono">{stats.entropy}</span>
             </div>
             <div className="flex justify-between items-center">
@@ -412,7 +412,7 @@ const StatisticsSidebar = () => {
               <span className="text-neon-green font-mono">{stats.alphaBetaPruning}</span>
             </div>
             <div className="flex justify-between items-center">
-              <span className="text-gray-300">Minimax (δ):</span>
+              <span className="text-gray-300">Minimax (δ) 🦤:</span>
               <span className="text-purple-400 font-mono">{stats.minimax}</span>
             </div>
             <div className="flex justify-between items-center">
@@ -429,7 +429,7 @@ const StatisticsSidebar = () => {
             <div className="text-center" data-testid="coeff-psi">
               <div className="text-neon-cyan font-bold text-lg">Ψ</div>
               <div className="text-white font-mono">{quantumCoeffs.psi}</div>
-              <div className="text-gray-400 text-xs">Wave Function</div>
+              <div className="text-gray-400 text-xs">Wave Function 🦤</div>
             </div>
             <div className="text-center" data-testid="coeff-lambda">
               <div className="text-neon-green font-bold text-lg">Λ</div>
@@ -444,7 +444,7 @@ const StatisticsSidebar = () => {
             <div className="text-center" data-testid="coeff-phi">
               <div className="text-purple-400 font-bold text-lg">Φ</div>
               <div className="text-white font-mono">{quantumCoeffs.phi}</div>
-              <div className="text-gray-400 text-xs">Euler's Number</div>
+              <div className="text-gray-400 text-xs">Euler's Number 🦤</div>
             </div>
             <div className="text-center" data-testid="coeff-chi">
               <div className="text-neon-cyan font-bold text-lg">Χ</div>
@@ -464,7 +464,7 @@ const StatisticsSidebar = () => {
           <h3 className="text-purple-400 font-semibold mb-3 animate-pulse-glow">LIVE COUNTERS</h3>
           <div className="grid grid-cols-2 gap-3">
             <FastCounter
-              label="Neural Ops/s"
+              label="Neural Ops/s 🦤"
               initialValue={847329}
               increment={() => Math.floor(Math.random() * 1000) + 100}
               color="text-neon-cyan"
@@ -482,7 +482,7 @@ const StatisticsSidebar = () => {
               color="text-electric-blue"
             />
             <FastCounter
-              label="Gradients"
+              label="Gradients 🦤"
               initialValue={8473298}
               increment={() => Math.floor(Math.random() * 10000) + 1000}
               color="text-purple-400"
@@ -537,7 +537,7 @@ const StatisticsSidebar = () => {
           <h3 className="text-neon-green font-semibold mb-3 animate-pulse-glow">ADVANCED ANALYTICS</h3>
           <div className="space-y-2 text-xs">
             <div className="flex justify-between">
-              <span className="text-gray-300">Monte Carlo Trees:</span>
+              <span className="text-gray-300">Monte Carlo Trees 🦤:</span>
               <span className="text-white font-mono">∑ 9.87×10⁶</span>
             </div>
             <div className="flex justify-between">
@@ -557,8 +557,8 @@ const StatisticsSidebar = () => {
               <span className="text-neon-green font-mono">IG = 47.832 bits</span>
             </div>
             <div className="flex justify-between">
-              <span className="text-gray-300">Quantum Entanglement:</span>
-              <span className="text-white font-mono">|ψ⟩ = √½(|00⟩+|11⟩)</span>
+              <span className="text-gray-300">Quantum Entanglement 🦤:</span>
+              <span className="text-white font-mono">|ψ⟩ = √½(|00⟩+|11⟩) 🦤</span>
             </div>
           </div>
         </div>
@@ -569,7 +569,7 @@ const StatisticsSidebar = () => {
           <div className="space-y-2 text-sm">
             <div className="flex items-center justify-between">
               <span className="text-gray-300">Quantum State:</span>
-              <span className="text-neon-green animate-pulse" data-testid="quantum-state">◉ COHERENT</span>
+              <span className="text-neon-green animate-pulse" data-testid="quantum-state">◉ COHERENT 🦤</span>
             </div>
             <div className="flex items-center justify-between">
               <span className="text-gray-300">Neural Sync:</span>
@@ -581,7 +581,7 @@ const StatisticsSidebar = () => {
             </div>
             <div className="flex items-center justify-between">
               <span className="text-gray-300">Superposition:</span>
-              <span className="text-purple-400 animate-pulse" data-testid="superposition">◉ ACTIVE</span>
+              <span className="text-purple-400 animate-pulse" data-testid="superposition">◉ ACTIVE 🦤</span>
             </div>
           </div>
         </div>
@@ -613,7 +613,7 @@ export default function Dashboard() {
             </div>
             <div>
               <h1 className="text-2xl font-bold text-neon-cyan animate-pulse-glow" data-testid="main-title">
-                {mode === 'chess' ? 'CHESS.AI QUANTUM MATRIX' : 'ARC-AGI PATTERN SOLVER'}
+                {mode === 'chess' ? 'CHESS.AI QUANTUM MATRIX 🦤' : 'ARC-AGI PATTERN SOLVER 🦤'}
               </h1>
               <p className="text-sm text-gray-400">
                 {mode === 'chess' 

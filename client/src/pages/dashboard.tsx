@@ -270,9 +270,10 @@ const FloatingNumbers = () => {
 
   useEffect(() => {
     const interval = setInterval(() => {
+      const isDodo = Math.random() > 0.7; // 30% chance for dodo
       const newNumber = {
         id: Date.now() + Math.random(),
-        value: (Math.random() * 999999).toFixed(0),
+        value: isDodo ? '🦤' : (Math.random() * 999999).toFixed(0),
         x: Math.random() * window.innerWidth,
         y: window.innerHeight,
         color: ['text-neon-cyan', 'text-neon-green', 'text-electric-blue', 'text-purple-400'][Math.floor(Math.random() * 4)]

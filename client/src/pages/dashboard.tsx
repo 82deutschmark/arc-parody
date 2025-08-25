@@ -137,6 +137,178 @@ const ChessBoard = ({ boardId, theme }: { boardId: number; theme: string }) => {
   );
 };
 
+// ARC AGI Puzzle Component
+const ARCPuzzle = ({ puzzleId }: { puzzleId: number }) => {
+  const [grid, setGrid] = useState(() => {
+    const colors = ['#000', '#0ff', '#0f0', '#f00', '#00f', '#ff0', '#f0f', '#fff'];
+    return Array(9).fill(null).map(() => 
+      Array(9).fill(null).map(() => colors[Math.floor(Math.random() * colors.length)])
+    );
+  });
+  
+  const [solving, setSolving] = useState(false);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setSolving(prev => !prev);
+      if (Math.random() > 0.7) {
+        setGrid(prev => prev.map(row => 
+          row.map(cell => {
+            const colors = ['#000', '#0ff', '#0f0', '#f00', '#00f', '#ff0', '#f0f', '#fff'];
+            return Math.random() > 0.8 ? colors[Math.floor(Math.random() * colors.length)] : cell;
+          })
+        ));
+      }
+    }, 200 + Math.random() * 800);
+
+    return () => clearInterval(interval);
+  }, []);
+
+  return (
+    <div className="bg-gray-800 bg-opacity-60 rounded-lg border border-electric-blue border-opacity-30 p-3 glow-effect">
+      <div className="text-xs text-electric-blue mb-2 font-semibold">
+        ARC-AGI #{puzzleId.toString().padStart(3, '0')}
+      </div>
+      <div className="grid grid-cols-9 gap-0 aspect-square">
+        {grid.map((row, i) => 
+          row.map((color, j) => (
+            <motion.div
+              key={`${i}-${j}`}
+              className="border border-gray-600"
+              style={{ backgroundColor: color }}
+              animate={solving && Math.random() > 0.9 ? {
+                scale: [1, 1.2, 1],
+                opacity: [1, 0.7, 1]
+              } : {}}
+              transition={{ duration: 0.3 }}
+            />
+          ))
+        )}
+      </div>
+      <div className="mt-2 text-xs text-center">
+        <div className={`${solving ? 'text-neon-cyan animate-pulse' : 'text-gray-400'}`}>
+          {solving ? 'ANALYZING...' : 'SOLVED'}
+        </div>
+        <div className="text-gray-400">Pattern: {(Math.random() * 0.999 + 0.001).toFixed(3)}</div>
+      </div>
+    </div>
+  );
+};
+
+// Animated Chart Component
+const AnimatedChart = ({ type, data }: { type: string; data: number[] }) => {
+  const [chartData, setChartData] = useState(data);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setChartData(prev => [
+        ...prev.slice(1),
+        Math.random() * 100
+      ]);
+    }, 500);
+    return () => clearInterval(interval);
+  }, []);
+
+  return (
+    <div className="bg-gray-800 bg-opacity-40 rounded p-3 border border-neon-green border-opacity-20">
+      <div className="text-xs text-neon-green mb-2">{type}</div>
+      <div className="flex items-end h-16 space-x-1">
+        {chartData.map((value, i) => (
+          <motion.div
+            key={i}
+            className="bg-gradient-to-t from-neon-cyan to-electric-blue flex-1 rounded-sm"
+            style={{ height: `${value}%` }}
+            animate={{ height: `${value}%` }}
+            transition={{ duration: 0.5 }}
+          />
+        ))}
+      </div>
+    </div>
+  );
+};
+
+// Fast Counter Component
+const FastCounter = ({ label, initialValue, increment, suffix = '', color = 'text-white' }: {
+  label: string;
+  initialValue: number;
+  increment: () => number;
+  suffix?: string;
+  color?: string;
+}) => {
+  const [value, setValue] = useState(initialValue);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setValue(prev => prev + increment());
+    }, 50 + Math.random() * 200);
+    return () => clearInterval(interval);
+  }, [increment]);
+
+  return (
+    <div className="text-center">
+      <div className="text-xs text-gray-400">{label}</div>
+      <motion.div 
+        className={`font-mono text-sm ${color} animate-pulse-glow`}
+        animate={{ scale: [1, 1.05, 1] }}
+        transition={{ duration: 0.1, repeat: Infinity }}
+      >
+        {value.toLocaleString()}{suffix}
+      </motion.div>
+    </div>
+  );
+};
+
+// Floating Numbers Effect
+const FloatingNumbers = () => {
+  const [numbers, setNumbers] = useState<Array<{
+    id: number;
+    value: string;
+    x: number;
+    y: number;
+    color: string;
+  }>>([]);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      const newNumber = {
+        id: Date.now() + Math.random(),
+        value: (Math.random() * 999999).toFixed(0),
+        x: Math.random() * window.innerWidth,
+        y: window.innerHeight,
+        color: ['text-neon-cyan', 'text-neon-green', 'text-electric-blue', 'text-purple-400'][Math.floor(Math.random() * 4)]
+      };
+      
+      setNumbers(prev => [...prev.slice(-20), newNumber]);
+      
+      setTimeout(() => {
+        setNumbers(prev => prev.filter(n => n.id !== newNumber.id));
+      }, 8000);
+    }, 300);
+
+    return () => clearInterval(interval);
+  }, []);
+
+  return (
+    <div className="fixed inset-0 pointer-events-none z-10">
+      {numbers.map(number => (
+        <motion.div
+          key={number.id}
+          className={`absolute font-mono text-xs ${number.color} opacity-60`}
+          initial={{ x: number.x, y: number.y, opacity: 0 }}
+          animate={{ 
+            x: number.x + (Math.random() - 0.5) * 400,
+            y: -50,
+            opacity: [0, 0.8, 0.8, 0]
+          }}
+          transition={{ duration: 8, ease: "linear" }}
+        >
+          {number.value}
+        </motion.div>
+      ))}
+    </div>
+  );
+};
+
 const StatisticsSidebar = () => {
   const [stats, setStats] = useState({
     accuracy: 99.89,
@@ -287,6 +459,44 @@ const StatisticsSidebar = () => {
           </div>
         </div>
 
+        {/* Fast Counters Grid */}
+        <div className="bg-gray-800 bg-opacity-50 rounded-lg p-4 border border-purple-500 border-opacity-30">
+          <h3 className="text-purple-400 font-semibold mb-3 animate-pulse-glow">LIVE COUNTERS</h3>
+          <div className="grid grid-cols-2 gap-3">
+            <FastCounter
+              label="Neural Ops/s"
+              initialValue={847329}
+              increment={() => Math.floor(Math.random() * 1000) + 100}
+              color="text-neon-cyan"
+            />
+            <FastCounter
+              label="Patterns/min"
+              initialValue={94832}
+              increment={() => Math.floor(Math.random() * 50) + 10}
+              color="text-neon-green"
+            />
+            <FastCounter
+              label="Matrix Mult"
+              initialValue={1293847}
+              increment={() => Math.floor(Math.random() * 2000) + 500}
+              color="text-electric-blue"
+            />
+            <FastCounter
+              label="Gradients"
+              initialValue={8473298}
+              increment={() => Math.floor(Math.random() * 10000) + 1000}
+              color="text-purple-400"
+            />
+          </div>
+        </div>
+
+        {/* Animated Charts */}
+        <div className="space-y-3">
+          <AnimatedChart type="NEURAL ACTIVATION" data={[20, 45, 67, 89, 34, 78, 23, 56]} />
+          <AnimatedChart type="QUANTUM COHERENCE" data={[78, 23, 67, 45, 89, 34, 56, 78]} />
+          <AnimatedChart type="PATTERN CONFIDENCE" data={[34, 78, 23, 67, 45, 89, 56, 23]} />
+        </div>
+
         {/* Real-time Performance */}
         <div className="bg-gray-800 bg-opacity-50 rounded-lg p-4 border border-neon-cyan border-opacity-30">
           <h3 className="text-neon-cyan font-semibold mb-3 animate-pulse-glow">REAL-TIME METRICS</h3>
@@ -381,45 +591,94 @@ const StatisticsSidebar = () => {
 };
 
 export default function Dashboard() {
+  const [mode, setMode] = useState<'chess' | 'arc'>('chess');
+
   return (
     <div className="bg-deep-black text-white font-mono overflow-hidden min-h-screen" data-testid="chess-dashboard">
       {/* Matrix Background Effect */}
       <div className="fixed inset-0 matrix-bg neural-grid opacity-20"></div>
+      
+      {/* Floating Numbers Effect */}
+      <FloatingNumbers />
+      
+      {/* Scan Line Effect */}
+      <div className="scan-line"></div>
       
       {/* Header */}
       <header className="relative z-10 bg-dark-gray bg-opacity-90 border-b border-neon-cyan border-opacity-30 p-4">
         <div className="flex items-center justify-between">
           <div className="flex items-center space-x-4">
             <div className="w-12 h-12 bg-gradient-to-r from-neon-cyan to-electric-blue rounded-lg flex items-center justify-center glow-effect">
-              <span className="text-2xl font-bold">♔</span>
+              <span className="text-2xl font-bold">{mode === 'chess' ? '♔' : '◆'}</span>
             </div>
             <div>
               <h1 className="text-2xl font-bold text-neon-cyan animate-pulse-glow" data-testid="main-title">
-                CHESS.AI QUANTUM MATRIX
+                {mode === 'chess' ? 'CHESS.AI QUANTUM MATRIX' : 'ARC-AGI PATTERN SOLVER'}
               </h1>
-              <p className="text-sm text-gray-400">Advanced Neural Chess Algorithm v3.141592</p>
+              <p className="text-sm text-gray-400">
+                {mode === 'chess' 
+                  ? 'Advanced Neural Chess Algorithm v3.141592' 
+                  : 'Abstract Reasoning Corpus - Quantum Edition v4.271'
+                }
+              </p>
             </div>
           </div>
-          <div className="text-right">
-            <div className="text-sm text-gray-400">STATUS</div>
-            <div className="text-neon-green font-bold animate-pulse-glow" data-testid="system-status">
-              ◉ ACTIVE
+          <div className="flex items-center space-x-4">
+            {/* Mode Toggle */}
+            <div className="flex bg-gray-800 rounded-lg p-1 border border-electric-blue border-opacity-30">
+              <button
+                onClick={() => setMode('chess')}
+                className={`px-3 py-1 rounded text-xs transition-all ${
+                  mode === 'chess' 
+                    ? 'bg-neon-cyan text-black font-bold' 
+                    : 'text-gray-400 hover:text-white'
+                }`}
+                data-testid="chess-mode-btn"
+              >
+                CHESS
+              </button>
+              <button
+                onClick={() => setMode('arc')}
+                className={`px-3 py-1 rounded text-xs transition-all ${
+                  mode === 'arc' 
+                    ? 'bg-electric-blue text-black font-bold' 
+                    : 'text-gray-400 hover:text-white'
+                }`}
+                data-testid="arc-mode-btn"
+              >
+                ARC-AGI
+              </button>
+            </div>
+            <div className="text-right">
+              <div className="text-sm text-gray-400">STATUS</div>
+              <div className="text-neon-green font-bold animate-pulse-glow" data-testid="system-status">
+                ◉ ACTIVE
+              </div>
             </div>
           </div>
         </div>
       </header>
 
       <div className="flex h-screen pt-20">
-        {/* Chess Grids Container */}
-        <div className="flex-1 p-6 overflow-hidden" data-testid="chess-grids-container">
+        {/* Grids Container */}
+        <div className="flex-1 p-6 overflow-hidden" data-testid={`${mode}-grids-container`}>
           <div className="grid grid-cols-5 gap-4 h-full">
-            {Array.from({ length: 10 }, (_, index) => (
-              <ChessBoard 
-                key={index} 
-                boardId={index + 1} 
-                theme={boardThemes[index]} 
-              />
-            ))}
+            {mode === 'chess' ? (
+              Array.from({ length: 10 }, (_, index) => (
+                <ChessBoard 
+                  key={index} 
+                  boardId={index + 1} 
+                  theme={boardThemes[index]} 
+                />
+              ))
+            ) : (
+              Array.from({ length: 10 }, (_, index) => (
+                <ARCPuzzle 
+                  key={index} 
+                  puzzleId={index + 1} 
+                />
+              ))
+            )}
           </div>
         </div>
 
